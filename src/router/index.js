@@ -8,9 +8,16 @@ const routers = {
         path: '/danone',
         name: 'danone',
         meta: {
-            title: "达能"
+            title: "少塑派行动"
         },
         component: resolve => require(["../views/danone"], resolve)
+    },{
+        path: '/explore',
+        name: 'explore',
+        meta: {
+            title: "环保少塑势在必行"
+        },
+        component: resolve => require(["../views/explore"], resolve)
     }],
 
     createRouter(){

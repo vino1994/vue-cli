@@ -118,7 +118,7 @@ li{
 .pages {
 	height: auto;
 	min-height: 100vh;
-	
+
 	// 为了兼容APP，webview的高度是100%，而mui 的scroll-box必须是指定高度的，针对于padding-top无效
 	&.mui-content {
 	    padding-top: 0px;
@@ -126,14 +126,14 @@ li{
 	    min-height: -moz-calc(~'100vh - 44px');
 	    min-height: -webkit-calc(~'100vh - 44px');
 	    min-height: calc(~'100vh - 44px');
-	    
+
 	    &.toolbar-fixed {
 	        min-height: -moz-calc(~'100vh - 44px - 50px');
 	        min-height: -webkit-calc(~'100vh - 44px - 50px');
 	        min-height: calc(~'100vh - 44px - 50px');
 	    }
 	}
-	
+
 	&.toolbar-fixed {
         padding-bottom: 0px;
         margin-bottom: 50px;
