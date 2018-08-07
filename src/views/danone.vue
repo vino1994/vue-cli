@@ -36,6 +36,7 @@
 import Swiper from "swiper";
 import Loading from "../components/loading";
 import lrz from "lrz";
+import wxSdk from "../js/wx-sdk";
 export default {
     data() {
         return {
@@ -49,9 +50,9 @@ export default {
         Loading
     },
     mounted() {
-        // this.initWeChat();
+        this.initWeChat();
         this.initSwiper();
-        this.initDemo();
+        // this.initDemo();
     },
     methods: {
         initSwiper() {
@@ -105,7 +106,7 @@ export default {
                     ctx = c.getContext('2d');
                 c.width = img1.naturalWidth;
                 c.height = img1.naturalHeight;
-                
+
                 ctx.rect(0, 0, c.width, c.height);
                 ctx.fillStyle = '#fff';
                 ctx.fill();
@@ -132,6 +133,10 @@ export default {
         initWeChat(){
             return app.api.wxConfig.config({
                 url: location.href.split("#")[0]
+            }).then((data)=>{
+                if(data.status == 200){
+                    wxSdk.config(data.data)
+                }
             })
         },
         initDemo(){

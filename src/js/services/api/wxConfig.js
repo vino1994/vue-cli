@@ -2,9 +2,9 @@
 export default {
     config(params,ajaxOptions) {
         let o = Object.assign({
-            method: "GET",
+            method: "POST",
             params:params,
-            url: app.config.webapiDomain + "config",
+            url: app.config.webapiDomain + "api/wx/test",
         }, ajaxOptions);
         return app.ajax(o);
     }
