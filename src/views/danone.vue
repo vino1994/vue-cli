@@ -53,18 +53,23 @@ export default {
             showLoading: true, //是否显示loading动画
             lrzImage: "",
             showLazImageContent: false,
-            name: "",//昵称
+            name: "", //昵称
             man: require("../images/danone/02man.png"),
             woman: require("../images/danone/02woman.png"),
-            choose_sex:''//选择的性别
+            choose_sex: "" //选择的性别
         };
     },
     components: {
         Loading
     },
     mounted() {
-        this.initWeChat();
+        // this.initWeChat();
         this.initSwiper();
+        window.addEventListener("scroll", ()=>{
+            if (window.scrollY > 0 && this.name != '') {
+                window.scrollTo(0, 0);
+            }
+        });
     },
     methods: {
         initSwiper() {
@@ -73,8 +78,8 @@ export default {
                 direction: "vertical",
                 effect: "fade",
                 speed: 300,
-                observer:true,
-                observeParents:true,
+                observer: true,
+                observeParents: true,
                 on: {
                     init() {
                         if (this.activeIndex == 0) {
@@ -97,25 +102,25 @@ export default {
         },
         choose(sex = "") {
             if (sex == "man") {
-                this.choose_sex = 'man';
+                this.choose_sex = "man";
                 this.man = require("../images/danone/02man_choose.png");
                 this.woman = require("../images/danone/02woman.png");
             } else {
-                this.choose_sex = 'woman';
+                this.choose_sex = "woman";
                 this.man = require("../images/danone/02man.png");
                 this.woman = require("../images/danone/02woman_choose.png");
             }
         },
-        blur(){
-            window.scrollTo(0,0)
+        blur() {
+            window.scrollTo(0, 0);
         },
         goExplore() {
-            if(this.name.length  == 0 || this.name.length > 6){
+            if (this.name.length == 0 || this.name.length > 6) {
                 this.$toast.center("请填写不多于6个字的昵称");
-            }else if(this.choose_sex == ''){
+            } else if (this.choose_sex == "") {
                 this.$toast.center("请选择性别");
-            }else{
-                this.$router.push({ path: 'explore' })
+            } else {
+                this.$router.push({ path: "explore" });
             }
         },
         chooseImage(e) {
@@ -191,7 +196,7 @@ export default {
                         });
                     }
                 });
-        },
+        }
     }
 };
 </script>
@@ -365,5 +370,5 @@ export default {
         height: 50px;
     }
 }
-@import '../../node_modules/swiper/dist/css/swiper.min.css';
+@import "../../node_modules/swiper/dist/css/swiper.min.css";
 </style>
