@@ -12,7 +12,12 @@ import api from "./js/services/api"
 
 
 Vue.use(Vuex);
-Vue.use(Toast);
+Vue.use(Toast, {
+    type: 'center',
+    duration: 2000,
+    wordWrap: true,
+    width: '180px'
+});
 
 window.app = Object.assign({ config: config, wx: WxConfig, ajax: ajax(), api: api });
 Vue.config.productionTip = false;

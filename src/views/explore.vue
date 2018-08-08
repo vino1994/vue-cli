@@ -49,7 +49,7 @@ export default {
                 {
                     id: 6,
                     src: require("../images/danone/03twouse.png"),
-                    type: "twouse"
+                    type: "use"
                 }
             ]
         };
