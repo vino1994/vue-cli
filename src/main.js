@@ -15,8 +15,7 @@ Vue.use(Vuex);
 Vue.use(Toast, {
     type: 'center',
     duration: 2000,
-    wordWrap: true,
-    width: '180px'
+    wordWrap: true
 });
 
 window.app = Object.assign({ config: config, wx: WxConfig, ajax: ajax(), api: api });

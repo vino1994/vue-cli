@@ -21,7 +21,7 @@
                             <div class="sex" @click="choose('man')">
                                 <img :src="man" alt="">
                             </div>
-                            <div class="sex" @click="choose('woman')">
+                            <div class="sex2" @click="choose('woman')">
                                 <img :src="woman" alt="">
                             </div>
                         </div>
@@ -64,22 +64,32 @@
                                 <img class="close" v-show="lrzImage" @click="close" src="../images/danone/close.png" alt="">
                             </div>
                         </div>
-                        <div class="upload_btn">
+                        <div class="upload_btn" @click="next('five')">
                             <img class="btn" src="../images/danone/btn03.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <!-- 第六屏 -->
+                <div class="swiper-slide swiper-no-swiping">
+                    <div class="save" id="save">
+                        <img class="save_bg" :src="save_bg_img" alt="">
+                        <div class="name">
+                            <div v-cloak>恭喜{{name}}</div>
+                            <div class="g">
+                                <div>喜</div>
+                                <div>提</div>
+                            </div>
+                        </div>
+                        <div class="save_img">
+                            <img v-show="activeIndex == 5 && lrzImage" :src="lrzImage" alt="">
+                        </div>
+                        <div class="save_img_content" v-show="saveImgSrc">
+                            <img :src="saveImgSrc" alt="">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- <div class="choose" v-show="isShowInput">
-            <span>选择图片</span>
-            <input class="fileimage" type="file" name="image" id="iamge" @change="chooseImage" accept="image/*" />
-        </div> -->
-        <!-- <div class="laz-content" @touchmove.prevent>
-            <img class="laz-img" :src="lrzImage" alt="">
-            <img @click="close" class="close" src="../images/close.png" alt="">
-        </div> -->
-        <!-- <img id="QRcode" style="display:none;" src="../images/danone/L741197.jpg" alt=""> -->
     </div>
 </template>
 
@@ -88,12 +98,14 @@ import Swiper from "swiper";
 import Loading from "../components/loading";
 import lrz from "lrz";
 import wxSdk from "../js/wx-sdk";
+import html2canvas from "html2canvas";
 export default {
     data() {
         return {
-            showLoading: true, //是否显示loading动画
-            lrzImage: "",//用户预览图片
+            showLoading: false, //是否显示loading动画
+            lrzImage: "", //用户预览图片
             name: "", //昵称
+            activeIndex: "", //轮播index
             man: require("../images/danone/02man.png"),
             woman: require("../images/danone/02woman.png"),
             choose_sex: "", //选择的性别
@@ -133,40 +145,52 @@ export default {
             explore_type: "", //选择挑战类型
             challengeItem: {
                 bg: "#fffade",
-                src: require("../images/danone/challenge_yogurt.png")
+                src: require("../images/danone/challenge_yogurt.png"),
+                wd: "9.306667rem"
             },
             yogurt: {
                 bg: "#fffade",
-                src: require("../images/danone/challenge_yogurt.png")
+                src: require("../images/danone/challenge_yogurt.png"),
+                wd: "9.306667rem"
             },
             tableware: {
                 bg: "#eae1d3",
                 src: require("../images/danone/challenge_tableware.png"),
-                wd: "80%"
+                wd: "8.253333rem"
             },
             bag: {
                 bg: "#d5eff5",
-                src: require("../images/danone/challenge_bag.png")
+                src: require("../images/danone/challenge_bag.png"),
+                wd: "9.146667rem"
             },
             smile: {
                 bg: "#ffffff",
                 src: require("../images/danone/challenge_smile.png"),
-                wd: "80%"
+                wd: "8.333333rem"
             },
             fruit: {
                 bg: "#d5e4f5",
                 src: require("../images/danone/challenge_fruit.png"),
-                wd: "76%"
+                wd: "7.573333rem"
             },
             use: {
                 bg: "#fff1ed",
                 src: require("../images/danone/challenge_use.png"),
-                wd: "72%"
-            }
+                wd: "7.48rem"
+            },
+            save_bg_img: "", //图片背景
+            saveImgSrc:''//保存图片路径
         };
     },
     components: {
         Loading
+    },
+    watch: {
+        save_bg_img(nowVal, oldVal) {
+            if(nowVal != oldVal){
+                this.upload();
+            }
+        }
     },
     mounted() {
         // this.initWeChat();
@@ -189,6 +213,7 @@ export default {
                 noSwiping: true,
                 on: {
                     slideChangeTransitionStart: function() {
+                        _this.activeIndex = this.activeIndex;
                         switch (this.activeIndex) {
                             case 0:
                                 document.title = "少塑派行动";
@@ -201,6 +226,14 @@ export default {
                                 break;
                             case 3:
                                 document.title = "开始挑战";
+                                break;
+                            case 4:
+                                document.title = "生成少塑派";
+                                break;
+                            case 5:
+                                document.title = "你的少塑派";
+                                _this.showLoading = true;
+                                _this.calculation();
                                 break;
                         }
                     },
@@ -226,8 +259,15 @@ export default {
             } else if (num == "three") {
                 this.explore_type = type;
                 this.choose_challenge();
-            }else if(num == "four"){
+            } else if (num == "four") {
                 this.mySwiper.slideNext();
+            } else if (num == "five") {
+                if (!this.lrzImage) {
+                    this.$toast.center("请选择一张照片");
+                    return;
+                } else {
+                    this.mySwiper.slideNext();
+                }
             }
         },
         //选择性别
@@ -285,7 +325,6 @@ export default {
                 } else {
                     _this.showLoading = false;
                     _this.lrzImage = rst.base64;
-                    // _this.compositePicture(rst.base64);
                 }
             })
             .catch(function(err) {
@@ -295,9 +334,61 @@ export default {
         },
         //关闭预览
         close() {
-            this.lrzImage = '';
-            document.getElementById('iamge').value = '';
+            this.lrzImage = "";
+            document.getElementById("iamge").value = "";
         },
+        //计算生成的图片
+        calculation() {
+            let manArr = [
+                require("../images/danone/photo/01man.png"),
+                require("../images/danone/photo/02man.png"),
+                require("../images/danone/photo/03man.png"),
+                require("../images/danone/photo/04man.png"),
+                require("../images/danone/photo/05man.png"),
+                require("../images/danone/photo/06man.png"),
+                require("../images/danone/photo/07man.png")
+            ];
+            let womanArr = [
+                require("../images/danone/photo/01woman.png"),
+                require("../images/danone/photo/02woman.png"),
+                require("../images/danone/photo/03woman.png"),
+                require("../images/danone/photo/04woman.png"),
+                require("../images/danone/photo/05woman.png"),
+                require("../images/danone/photo/06woman.png"),
+                require("../images/danone/photo/07woman.png")
+            ];
+            if (this.choose_sex == "man") {
+                let num = this.fRandomBy(0, 6);
+                this.save_bg_img = manArr[num];
+            } else {
+                let num = this.fRandomBy(0, 6);
+                this.save_bg_img = womanArr[num];
+            }
+        },
+        //1-7随机数,(0,6)
+        fRandomBy(under, over) {
+            switch (arguments.length) {
+                case 1:
+                    return parseInt(Math.random() * under + 1);
+                case 2:
+                    return parseInt(Math.random() * (over - under + 1) + under);
+                default:
+                    return 0;
+            }
+        },
+        //使用html2canvas生成图片
+        upload() {
+            let opts = {
+                scale: 2
+            };
+            html2canvas(document.querySelector("#save"), opts).then(canvas => {
+                this.saveImgSrc = canvas.toDataURL("image/jpg");
+                this.showLoading = false;
+            });
+        },
+
+
+
 
 
 
@@ -334,11 +425,9 @@ export default {
         },
 
         initWeChat() {
-            return app.api.wxConfig
-                .config({
+            return app.api.wxConfig.config({
                     url: location.href.split("#")[0]
-                })
-                .then(data => {
+                }).then(data => {
                     if (data.status == 200) {
                         wxSdk.config(data.data);
                         wxSdk.shareFriend({
@@ -364,7 +453,7 @@ export default {
     background: #cceaff;
     position: relative;
     .slide1_bg {
-        width: 100%;
+        width: 750px;
     }
     .arrow {
         position: absolute;
@@ -372,8 +461,7 @@ export default {
         left: 0;
         right: 0;
         margin: 0 auto;
-        width: 26px;
-        height: 15px;
+        width: 36px;
         animation: scaleDraw 5s ease-in-out infinite;
         -webkit-animation: scaleDraw 5s ease-in-out infinite;
         img {
@@ -391,34 +479,35 @@ export default {
     justify-content: center;
     background: #daf0fe;
     position: relative;
-    @media only screen and (max-width: 320px) {
-        .slide2_bg {
-            width: 82%;
-        }
+    // @media only screen and (max-width: 320px) {
+    .slide2_bg {
+        width: 673px;
     }
-    @media only screen and (min-width: 321px) and (max-width: 414px) {
-        .slide2_bg {
-            width: 85%;
-        }
-    }
-    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-        .slide2_bg {
-            width: 90%;
-            margin-bottom: 10%;
-        }
-    }
+    // }
+    // @media only screen and (min-width: 321px) and (max-width: 414px) {
+    //     .slide2_bg {
+    //         width: 85%;
+    //     }
+    // }
+    // @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+    //     .slide2_bg {
+    //         width: 90%;
+    //         margin-bottom: 10%;
+    //     }
+    // }
     .nickname {
         outline: none;
         -webkit-appearance: none;
         border-radius: 0;
-        width: 34%;
-        height: 30px;
-        line-height: 30px;
+        width: 250px;
+        height: 56px;
+        line-height: 56px;
         padding-left: 5px;
         position: absolute;
         top: 52.4%;
         left: 38%;
         border: 2px solid #000000;
+        font-size: 24px;
     }
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
         .nickname {
@@ -427,8 +516,7 @@ export default {
     }
     .choose-sex {
         position: absolute;
-        height: 120px;
-        width: 70%;
+        width: 525px;
         top: 60%;
         display: flex;
         flex-direction: row;
@@ -436,7 +524,10 @@ export default {
         align-items: center;
         justify-content: space-around;
         .sex {
-            width: 36%;
+            width: 193px;
+        }
+        .sex2 {
+            width: 196px;
         }
     }
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
@@ -446,12 +537,9 @@ export default {
     }
     .btn_explore {
         position: absolute;
-        width: 36%;
-        height: 40px;
         top: 84%;
         img {
-            width: 100%;
-            height: 100%;
+            width: 287px;
         }
     }
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
@@ -491,11 +579,12 @@ export default {
         align-items: center;
         justify-content: center;
         flex-wrap: wrap;
+        margin-top: 10px;
         .li {
             width: 50%;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             img {
-                width: 58%;
+                width: 197px;
                 padding: 5px;
             }
             img:active {
@@ -505,13 +594,13 @@ export default {
         .li:nth-child(2n) {
             text-align: left;
             img {
-                margin-left: 20px;
+                margin-left: 30px;
             }
         }
         .li:nth-child(2n-1) {
             text-align: right;
             img {
-                margin-right: 20px;
+                margin-right: 30px;
             }
         }
         .li:nth-child(5),
@@ -529,18 +618,14 @@ export default {
     align-items: center;
     justify-content: center;
     align-content: center;
-    .challenge {
-        width: 90%;
-    }
     .challenge-btn {
-        width: 35%;
         margin-top: 30px;
         img {
-            width: 100%;
+            width: 288px;
         }
     }
 }
-.upload{
+.upload {
     width: 100%;
     height: 100vh;
     display: flex;
@@ -549,25 +634,24 @@ export default {
     justify-content: center;
     align-content: center;
     background: #daf0fe;
-    .upload_content{
-        width: 80%;
+    .upload_content {
         position: relative;
-        .upload_img{
-            width: 100%;
+        .upload_img {
+            width: 590px;
         }
-        .photo_content{
-            width: 83.4%;
-            height: 57.8vh;
-            top: 9.9%;
+        .photo_content {
+            width: 494px;
+            height: 8.966rem;
+            top: 91px;
             position: absolute;
             left: 0;
             right: 0;
             margin: 0 auto;
             overflow: hidden;
-            .add{
+            .add {
                 position: absolute;
                 margin: auto;
-                width: 90px;
+                width: 198px;
                 left: 0px;
                 right: 0px;
                 top: 0px;
@@ -585,7 +669,7 @@ export default {
                 right: 0;
                 margin: auto;
             }
-            .lrz_content{
+            .lrz_content {
                 width: 100%;
                 height: 100%;
                 display: flex;
@@ -594,54 +678,76 @@ export default {
                 justify-content: center;
                 align-content: center;
                 background: #fff;
-                .lrz_image{
+                .lrz_image {
                     width: 100%;
                 }
             }
-            .close{
+            .close {
                 position: absolute;
                 top: 5%;
                 right: 5%;
-                width: 24px;
+                width: 51px;
             }
         }
     }
-    .upload_btn{
-        width: 30%;
-        margin-top: 30px;
-        .btn{
-            width: 100%;
+    .upload_btn {
+        margin-top: 70px;
+        .btn {
+            width: 228px;
         }
     }
 }
-
-.laz-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.6);
+.save {
     width: 100%;
     height: 100vh;
-    max-height: 100vh;
-    min-height: 100vh;
-    .laz-img {
-        position: absolute;
-        width: 90%;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        margin-top: 5%;
-        border-radius: 10px;
-        height: calc(100vh - 140px);
+    background: #d9f1ff;
+    position: relative;
+    .save_bg {
+        width: 750px;
     }
-    .close {
+    .name {
         position: absolute;
-        bottom: 5%;
+        font-size: 39px;
+        font-family: Lantinghei SC;
+        font-weight: 500;
+        display: inline-block;
+        top: 64px;
+        left: 50px;
+        .g {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+        }
+    }
+    .save_img {
+        position: absolute;
+        width: 200px;
+        height: 260px;
+        background: #fff;
+        bottom: 50px;
+        left: 50px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        img {
+            width: 90%;
+        }
+    }
+    .save_img_content{
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        top: 0;
         left: 0;
-        right: 0;
-        margin: 0 auto;
-        width: 50px;
-        height: 50px;
+        opacity: 0;
+        img{
+            width: 100%;
+        }
     }
 }
 @import "../../node_modules/swiper/dist/css/swiper.min.css";
