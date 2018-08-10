@@ -32,7 +32,7 @@
                 </div>
                 <!-- 第三屏 -->
                 <div class="swiper-slide swiper-no-swiping">
-                    <div class="explore-content">
+                    <div class="explore-content" v-cloak>
                         <img src="../images/danone/03.png" alt="">
                         <div class="ul">
                             <div class="li" v-for="item in items" :key="item.id" @click="next('three',item.type)">
@@ -43,7 +43,7 @@
                 </div>
                 <!-- 第四屏 -->
                 <div class="swiper-slide swiper-no-swiping">
-                    <div class="challenge-content" :style="{background:challengeItem.bg}">
+                    <div class="challenge-content" :style="{background:challengeItem.bg}" v-show="!!challengeItem.bg" v-cloak>
                         <img class="challenge" :style="{width:challengeItem.wd}" :src="challengeItem.src" alt="">
                         <div class="challenge-btn" @click="next('four')">
                             <img src="../images/danone/challenge_btn.png" alt="">
@@ -52,7 +52,7 @@
                 </div>
                 <!-- 第五屏 -->
                 <div class="swiper-slide swiper-no-swiping">
-                    <div class="upload">
+                    <div class="upload" v-cloak>
                         <div class="upload_content">
                             <img class="upload_img" src="../images/danone/upload.png" alt="">
                             <div class="photo_content">
@@ -71,14 +71,11 @@
                 </div>
                 <!-- 第六屏 -->
                 <div class="swiper-slide swiper-no-swiping">
-                    <div class="save" id="save">
+                    <div class="save" id="save" v-cloak>
                         <img class="save_bg" :src="save_bg_img" alt="">
                         <div class="name">
                             <div v-cloak>恭喜{{name}}</div>
-                            <div class="g">
-                                <div>喜</div>
-                                <div>提</div>
-                            </div>
+                            <div class="g"><div>喜</div><div>提</div></div>
                         </div>
                         <div class="save_img">
                             <img v-show="activeIndex == 5 && lrzImage" :src="lrzImage" alt="">
@@ -144,9 +141,9 @@ export default {
             ],
             explore_type: "", //选择挑战类型
             challengeItem: {
-                bg: "#fffade",
-                src: require("../images/danone/challenge_yogurt.png"),
-                wd: "9.306667rem"
+                bg: "",
+                src: "",
+                wd: ""
             },
             yogurt: {
                 bg: "#fffade",
@@ -188,7 +185,9 @@ export default {
     watch: {
         save_bg_img(nowVal, oldVal) {
             if(nowVal != oldVal){
-                this.upload();
+                setTimeout(()=>{
+                    this.upload();
+                },500)
             }
         }
     },
@@ -702,6 +701,11 @@ export default {
     height: 100vh;
     background: #d9f1ff;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
     .save_bg {
         width: 750px;
     }
@@ -709,7 +713,7 @@ export default {
         position: absolute;
         font-size: 39px;
         font-family: Lantinghei SC;
-        font-weight: 500;
+        font-weight: bold;
         display: inline-block;
         top: 64px;
         left: 50px;
