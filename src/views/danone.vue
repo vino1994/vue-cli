@@ -1,12 +1,12 @@
 <template>
-    <div style="overflow: hidden;height: 100vh;">
+    <div :class="{isBegin:isBegin}">
         <Loading v-show="showLoading"></Loading>
-        <div class="swiper-container">
+        <div class="swiper-container" v-show="isBegin && !isOver">
             <div class="swiper-wrapper">
                 <!-- 第一屏 -->
                 <div class="swiper-slide swiper-no-swiping">
                     <div class="slide1">
-                        <img class="slide1_bg" src="../images/1111.png" alt="">
+                        <img class="slide1_bg" src="../images/danone/111.png" alt="">
                         <div class="arrow" @click="next('one')">
                             <img src="../images/danone/01arrow.png" alt="">
                         </div>
@@ -15,8 +15,8 @@
                 <!-- 第二屏 -->
                 <div class="swiper-slide swiper-no-swiping">
                     <div class="slide2">
-                        <img class="slide2_bg" src="../images/2222.png" alt="">
-                        <input class="nickname" v-model='name' @blur="blur" placeholder="edit me" />
+                        <img class="slide2_bg" src="../images/danone/222.png" alt="">
+                        <input class="nickname" v-model='name' @blur="blur" placeholder="请填写昵称" />
                         <div class="choose-sex">
                             <div class="sex" @click="choose('man')">
                                 <img :src="man" alt="">
@@ -75,7 +75,10 @@
                         <img class="save_bg" :src="save_bg_img" alt="">
                         <div class="name">
                             <div v-cloak>恭喜{{name}}</div>
-                            <div class="g"><div>喜</div><div>提</div></div>
+                            <div class="g">
+                                <div>喜</div>
+                                <div>提</div>
+                            </div>
                         </div>
                         <div class="save_img">
                             <img v-show="activeIndex == 5 && lrzImage" :src="lrzImage" alt="">
@@ -87,6 +90,8 @@
                 </div>
             </div>
         </div>
+        <img style="width:750px;" src="../images/danone/not_started.jpg" alt="" v-show="!isBegin && !isOver">
+        <img style="width:750px;" src="../images/danone/isOver.jpg" alt="" v-show="!isBegin && isOver">
     </div>
 </template>
 
@@ -176,7 +181,9 @@ export default {
                 wd: "7.48rem"
             },
             save_bg_img: "", //图片背景
-            saveImgSrc:''//保存图片路径
+            saveImgSrc: "", //保存图片路径
+            isBegin:false,
+            isOver:false
         };
     },
     components: {
@@ -184,19 +191,28 @@ export default {
     },
     watch: {
         save_bg_img(nowVal, oldVal) {
-            if(nowVal != oldVal){
-                setTimeout(()=>{
+            if (nowVal != oldVal) {
+                setTimeout(() => {
                     this.upload();
-                },500)
+                }, 500);
             }
         }
     },
     mounted() {
         // this.initWeChat();
-        this.initSwiper();
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 0 && this.name != "") {
-                window.scrollTo(0, 0);
+        this.ajax(res => {
+            if(res < 1534867200000){
+                this.isBegin = false;
+            }else if(res > 1535126399000){
+                this.isOver = true;
+            }else{
+                this.isBegin = true;
+                this.initSwiper();
+                window.addEventListener("scroll", () => {
+                    if (window.scrollY > 0 && this.name != "") {
+                        window.scrollTo(0, 0);
+                    }
+                });
             }
         });
     },
@@ -249,7 +265,7 @@ export default {
                 this.mySwiper.slideNext();
             } else if (num == "two") {
                 if (this.name.length == 0 || this.name.length > 6) {
-                    this.$toast.center("请填写不多于6个字的昵称");
+                    this.$toast.center("昵称不能超过六个字哦~");
                 } else if (this.choose_sex == "") {
                     this.$toast.center("请选择性别");
                 } else {
@@ -262,7 +278,7 @@ export default {
                 this.mySwiper.slideNext();
             } else if (num == "five") {
                 if (!this.lrzImage) {
-                    this.$toast.center("请选择一张照片");
+                    this.$toast.center("请上传照片");
                     return;
                 } else {
                     this.mySwiper.slideNext();
@@ -316,20 +332,21 @@ export default {
                 return;
             }
             _this.showLoading = true;
-            lrz(e.target.files[0]).then(function(rst) {
-                if (rst.base64Len > 1024 * 1024 * 4) {
+            lrz(e.target.files[0])
+                .then(function(rst) {
+                    if (rst.base64Len > 1024 * 1024 * 4) {
+                        _this.lrzImage = "";
+                        _this.$toast.center("图片不能超过4MB");
+                        return;
+                    } else {
+                        _this.showLoading = false;
+                        _this.lrzImage = rst.base64;
+                    }
+                })
+                .catch(function(err) {
                     _this.lrzImage = "";
-                    _this.$toast.center("图片不能超过4MB");
-                    return;
-                } else {
-                    _this.showLoading = false;
-                    _this.lrzImage = rst.base64;
-                }
-            })
-            .catch(function(err) {
-                _this.lrzImage = "";
-                _this.$toast.center("压缩图片失败");
-            });
+                    _this.$toast.center("压缩图片失败");
+                });
         },
         //关闭预览
         close() {
@@ -385,12 +402,27 @@ export default {
                 this.showLoading = false;
             });
         },
-
-
-
-
-
-
+        ajax(callback) {
+            var xhr = null;
+            if (window.XMLHttpRequest) {
+                xhr = new window.XMLHttpRequest();
+            } else {
+                // ie
+                xhr = new ActiveObject("Microsoft");
+            }
+            // 通过get的方式请求当前文件
+            xhr.open("get", "/");
+            xhr.send(null);
+            // 监听请求状态变化
+            xhr.onreadystatechange = function() {
+                var time = null;
+                if (xhr.readyState === 2) {
+                    // 获取响应头里的时间戳
+                    time = xhr.getResponseHeader("Date");
+                    callback(new Date(time).getTime());
+                }
+            };
+        },
 
         //合成图片
         compositePicture(res) {
@@ -424,9 +456,11 @@ export default {
         },
 
         initWeChat() {
-            return app.api.wxConfig.config({
+            return app.api.wxConfig
+                .config({
                     url: location.href.split("#")[0]
-                }).then(data => {
+                })
+                .then(data => {
                     if (data.status == 200) {
                         wxSdk.config(data.data);
                         wxSdk.shareFriend({
@@ -447,12 +481,14 @@ export default {
 .slide1 {
     height: 100vh;
     display: flex;
-    align-content: center;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
     background: #cceaff;
     position: relative;
     .slide1_bg {
-        width: 750px;
+        // width: 750px;
+        width: 684px;
     }
     .arrow {
         position: absolute;
@@ -480,7 +516,7 @@ export default {
     position: relative;
     // @media only screen and (max-width: 320px) {
     .slide2_bg {
-        width: 673px;
+        width: 616px;
     }
     // }
     // @media only screen and (min-width: 321px) and (max-width: 414px) {
@@ -715,8 +751,8 @@ export default {
         font-family: Lantinghei SC;
         font-weight: bold;
         display: inline-block;
-        top: 64px;
-        left: 50px;
+        top: 106px;
+        left: 60px;
         .g {
             width: 100%;
             display: flex;
@@ -727,11 +763,11 @@ export default {
     }
     .save_img {
         position: absolute;
-        width: 200px;
-        height: 260px;
+        width: 170px;
+        height: 200px;
         background: #fff;
-        bottom: 50px;
-        left: 50px;
+        bottom: 30px;
+        left: 60px;
         overflow: hidden;
         display: flex;
         flex-direction: column;
@@ -742,17 +778,35 @@ export default {
             width: 90%;
         }
     }
-    .save_img_content{
+    .save_img_content {
         position: absolute;
         width: 100%;
         height: 100vh;
         top: 0;
         left: 0;
         opacity: 0;
-        img{
+        img {
             width: 100%;
         }
     }
+}
+@keyframes buttonPulse {
+    from {
+        background-color: #1e6a0f;
+        -webkit-box-shadow: 0 0 25px #333;
+    }
+    50% {
+        background-color: #39ba1f;
+        -webkit-box-shadow: 0 0 75px #39ba1f;
+    }
+    to {
+        background-color: #1e6a0f;
+        -webkit-box-shadow: 0 0 25px #333;
+    }
+}
+.isBegin{
+    overflow: hidden;
+    height: 100vh;
 }
 @import "../../node_modules/swiper/dist/css/swiper.min.css";
 </style>
