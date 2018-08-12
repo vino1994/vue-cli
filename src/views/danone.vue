@@ -71,7 +71,7 @@
                                 <img v-show="!lrzImage" class="add" src="../images/danone/add.png" alt="">
                                 <input v-show="!lrzImage" class="fileimage" type="file" name="image" id="iamge" @change="chooseImage" accept="image/*" />
                                 <div class="lrz_content" v-show="lrzImage">
-                                    <div style="position:relative;">
+                                    <div style="position:relative;max-height: 8.9rem;">
                                         <img class="close" v-show="lrzImage" @click="close" src="../images/danone/close.png" alt="">
                                         <img class="lrz_image" :src="lrzImage" alt="">
                                     </div>
@@ -220,7 +220,7 @@ export default {
     mounted() {
         // this.initWeChat();
         this.ajax(res => {
-            // if(res < 1534867200000){
+            // if(res < 1534780800000){
             //     this.isBegin = false;
             // }else if(res > 1535126399000){
             //     this.isOver = true;
@@ -915,7 +915,7 @@ export default {
         font-family: Lantinghei SC;
         font-weight: bold;
         display: inline-block;
-        top: 50px;
+        top: 80px;
         left: 60px;
         .g {
             width: 100%;
