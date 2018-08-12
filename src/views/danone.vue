@@ -1,14 +1,25 @@
 <template>
     <div :class="{isBegin:isBegin}">
         <Loading v-show="showLoading"></Loading>
+        <div class="music" @click="change">
+            <img v-show="!stop" class="r" src="../images/danone/01mp3.png" alt="">
+            <img v-show="stop" src="../images/danone/02mp3.png" alt="">
+            <audio class="video" autoplay="autoplay" id="video" controls="controls" loop="loop">
+                <source src="../images/danone/video.mp3" />
+            </audio>
+        </div>
         <div class="swiper-container" v-show="isBegin && !isOver">
             <div class="swiper-wrapper">
                 <!-- 第一屏 -->
                 <div class="swiper-slide swiper-no-swiping">
                     <div class="slide1">
-                        <img class="slide1_bg" src="../images/danone/111.png" alt="">
-                        <div class="arrow" @click="next('one')">
-                            <img src="../images/danone/01arrow.png" alt="">
+                        <img class="slide1_bg" src="../images/test/103.png" alt="">
+                        <img class="seagull fudong" src="../images/test/102.png" alt="">
+                        <div class="earth-content" @click="start">
+                            <img class="earth" src="../images/test/diqiu.png" alt="">
+                            <img id="ren" class="ren" src="../images/test/ren.png" alt="">
+                            <img class="yinying" src="../images/test/shadow.png" alt="">
+                            <img class="title show" src="../images/test/title.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -26,7 +37,7 @@
                             </div>
                         </div>
                         <div class="btn_explore" @click="next('two')">
-                            <img src="../images/danone/02btn.png" alt="">
+                            <img :src="tansuo" alt="">
                         </div>
                     </div>
                 </div>
@@ -44,9 +55,10 @@
                 <!-- 第四屏 -->
                 <div class="swiper-slide swiper-no-swiping">
                     <div class="challenge-content" :style="{background:challengeItem.bg}" v-show="!!challengeItem.bg" v-cloak>
+                        <img class="fanhui" @click="fanhui" src="../images/danone/fanhui.png" alt="">
                         <img class="challenge" :style="{width:challengeItem.wd}" :src="challengeItem.src" alt="">
                         <div class="challenge-btn" @click="next('four')">
-                            <img src="../images/danone/challenge_btn.png" alt="">
+                            <img :src="tiaozhan" alt="">
                         </div>
                     </div>
                 </div>
@@ -59,13 +71,15 @@
                                 <img v-show="!lrzImage" class="add" src="../images/danone/add.png" alt="">
                                 <input v-show="!lrzImage" class="fileimage" type="file" name="image" id="iamge" @change="chooseImage" accept="image/*" />
                                 <div class="lrz_content" v-show="lrzImage">
-                                    <img class="lrz_image" :src="lrzImage" alt="">
+                                    <div style="position:relative;">
+                                        <img class="close" v-show="lrzImage" @click="close" src="../images/danone/close.png" alt="">
+                                        <img class="lrz_image" :src="lrzImage" alt="">
+                                    </div>
                                 </div>
-                                <img class="close" v-show="lrzImage" @click="close" src="../images/danone/close.png" alt="">
                             </div>
                         </div>
                         <div class="upload_btn" @click="next('five')">
-                            <img class="btn" src="../images/danone/btn03.png" alt="">
+                            <img class="btn" :src="shangchuan" alt="">
                         </div>
                     </div>
                 </div>
@@ -73,6 +87,7 @@
                 <div class="swiper-slide swiper-no-swiping">
                     <div class="save" id="save" v-cloak>
                         <img class="save_bg" :src="save_bg_img" alt="">
+                        <img class="badge" src="../images/danone/photo/badge.png" alt="">
                         <div class="name">
                             <div v-cloak>恭喜{{name}}</div>
                             <div class="g">
@@ -104,7 +119,8 @@ import html2canvas from "html2canvas";
 export default {
     data() {
         return {
-            showLoading: false, //是否显示loading动画
+            stop: false,
+            showLoading: true, //是否显示loading动画
             lrzImage: "", //用户预览图片
             name: "", //昵称
             activeIndex: "", //轮播index
@@ -182,8 +198,11 @@ export default {
             },
             save_bg_img: "", //图片背景
             saveImgSrc: "", //保存图片路径
-            isBegin:false,
-            isOver:false
+            tansuo: require("../images/danone/tansuo01.png"),
+            tiaozhan: require("../images/danone/01tiaozhan.png"),
+            shangchuan: require("../images/danone/01shangchuan.png"),
+            isBegin: false,
+            isOver: false
         };
     },
     components: {
@@ -201,19 +220,24 @@ export default {
     mounted() {
         // this.initWeChat();
         this.ajax(res => {
-            if(res < 1534867200000){
-                this.isBegin = false;
-            }else if(res > 1535126399000){
-                this.isOver = true;
-            }else{
-                this.isBegin = true;
-                this.initSwiper();
-                window.addEventListener("scroll", () => {
-                    if (window.scrollY > 0 && this.name != "") {
-                        window.scrollTo(0, 0);
-                    }
-                });
-            }
+            // if(res < 1534867200000){
+            //     this.isBegin = false;
+            // }else if(res > 1535126399000){
+            //     this.isOver = true;
+            // }else{
+            this.isBegin = true;
+            this.initSwiper();
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 0 && this.name != "") {
+                    window.scrollTo(0, 0);
+                }
+            });
+            window.onorientationchange = function() {
+                if (window.orientation == 90 || window.orientation == -90) {
+                    alert("为了您的良好的体验，请将手机/平板竖屏操作~");
+                }
+            };
+            // }
         });
     },
     methods: {
@@ -253,20 +277,39 @@ export default {
                         }
                     },
                     imagesReady: function() {
-                        _this.showLoading = false;
+                        _this.initMp3();
+                        setTimeout(() => {
+                            _this.showLoading = false;
+                        }, 4300);
                     }
                 }
             });
             _this.mySwiper = mySwiper;
+        },
+        //开始动画
+        start() {
+            let obj = document.getElementById("ren");
+            obj.classList.add("disappear");
+            setTimeout(() => {
+                this.next("one");
+            }, 500);
+            return;
         },
         //跳转到下一个swiper
         next(num, type = "") {
             if (num == "one") {
                 this.mySwiper.slideNext();
             } else if (num == "two") {
+                this.tansuo = require("../images/danone/tansuo02.png");
                 if (this.name.length == 0 || this.name.length > 6) {
+                    setTimeout(() => {
+                        this.tansuo = require("../images/danone/tansuo01.png");
+                    }, 200);
                     this.$toast.center("昵称不能超过六个字哦~");
                 } else if (this.choose_sex == "") {
+                    setTimeout(() => {
+                        this.tansuo = require("../images/danone/tansuo01.png");
+                    }, 200);
                     this.$toast.center("请选择性别");
                 } else {
                     this.mySwiper.slideNext();
@@ -275,9 +318,16 @@ export default {
                 this.explore_type = type;
                 this.choose_challenge();
             } else if (num == "four") {
-                this.mySwiper.slideNext();
+                this.tiaozhan = require("../images/danone/02tiaozhan.png");
+                setTimeout(() => {
+                    this.mySwiper.slideNext();
+                }, 200);
             } else if (num == "five") {
+                this.shangchuan = require("../images/danone/02shangchuan.png");
                 if (!this.lrzImage) {
+                    setTimeout(() => {
+                        this.shangchuan = require("../images/danone/01shangchuan.png");
+                    }, 200);
                     this.$toast.center("请上传照片");
                     return;
                 } else {
@@ -324,6 +374,9 @@ export default {
                     break;
             }
             this.mySwiper.slideNext();
+        },
+        fanhui(){
+            this.mySwiper.slidePrev();
         },
         //上传图片
         chooseImage(e) {
@@ -407,7 +460,6 @@ export default {
             if (window.XMLHttpRequest) {
                 xhr = new window.XMLHttpRequest();
             } else {
-                // ie
                 xhr = new ActiveObject("Microsoft");
             }
             // 通过get的方式请求当前文件
@@ -422,6 +474,23 @@ export default {
                     callback(new Date(time).getTime());
                 }
             };
+        },
+        //音乐按钮
+        change() {
+            var myVideo = document.getElementById("video");
+            if (this.stop) {
+                myVideo.play();
+            } else {
+                myVideo.pause();
+            }
+            this.stop = this.stop == true ? false : true;
+        },
+        initMp3() {
+            var myVideo = document.getElementById("video");
+            myVideo.play();
+            document.addEventListener("WeixinJSBridgeReady", function () {
+                myVideo.play();
+            }, false);
         },
 
         //合成图片
@@ -478,6 +547,28 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.music {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 20px;
+    right: 20px;
+    z-index: 9;
+    .r {
+        animation: rotate 3s linear infinite;
+    }
+    img {
+        width: 100%;
+    }
+    .video {
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        visibility: hidden;
+        opacity: 0;
+    }
+}
 .slide1 {
     height: 100vh;
     display: flex;
@@ -487,8 +578,70 @@ export default {
     background: #cceaff;
     position: relative;
     .slide1_bg {
-        // width: 750px;
-        width: 684px;
+        width: 750px;
+    }
+    .seagull {
+        position: absolute;
+        width: 158px;
+        height: 74px;
+        top: 220px;
+        left: 530px;
+    }
+    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3){
+        .seagull {
+            top: 320px;
+        }
+    }
+    .earth-content {
+        position: absolute;
+        width: 899px;
+        height: 727px;
+        top: 380px;
+        right: 0;
+        .earth {
+            position: absolute;
+            width: 497px;
+            height: 497px;
+            top: 0;
+            right: -140px;
+        }
+        .ren {
+            position: absolute;
+            width: 899px;
+            height: 475px;
+            bottom: 0px;
+            left: 200px;
+        }
+        .yinying {
+            position: absolute;
+            bottom: -4px;
+            left: 216px;
+            width: 192px;
+            height: 10px;
+        }
+        .title {
+            position: absolute;
+            width: 169px;
+            height: 93px;
+            right: 50px;
+            bottom: 50px;
+        }
+    }
+    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3){
+        .earth-content{
+            .earth {
+                top:110px;
+            }
+            .ren{
+                bottom: -120px;
+            }
+            .yinying {
+                bottom: -126px;
+            }
+            .title {
+                bottom: -100px;
+            }
+        }
     }
     .arrow {
         position: absolute;
@@ -514,22 +667,9 @@ export default {
     justify-content: center;
     background: #daf0fe;
     position: relative;
-    // @media only screen and (max-width: 320px) {
     .slide2_bg {
         width: 616px;
     }
-    // }
-    // @media only screen and (min-width: 321px) and (max-width: 414px) {
-    //     .slide2_bg {
-    //         width: 85%;
-    //     }
-    // }
-    // @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-    //     .slide2_bg {
-    //         width: 90%;
-    //         margin-bottom: 10%;
-    //     }
-    // }
     .nickname {
         outline: none;
         -webkit-appearance: none;
@@ -546,7 +686,7 @@ export default {
     }
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
         .nickname {
-            top: 49.6%;
+            top: 756px;
         }
     }
     .choose-sex {
@@ -567,7 +707,7 @@ export default {
     }
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
         .choose-sex {
-            top: 56%;
+            top: 860px;
         }
     }
     .btn_explore {
@@ -653,10 +793,22 @@ export default {
     align-items: center;
     justify-content: center;
     align-content: center;
+    .fanhui{
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        top: 20px;
+        left: 20px;
+    }
     .challenge-btn {
         margin-top: 30px;
         img {
             width: 288px;
+        }
+    }
+    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+        .challenge-btn {
+            margin-top: 60px;
         }
     }
 }
@@ -675,9 +827,9 @@ export default {
             width: 590px;
         }
         .photo_content {
-            width: 494px;
-            height: 8.966rem;
-            top: 91px;
+            width: 480px;
+            height: 8.9rem;
+            top: 120px;
             position: absolute;
             left: 0;
             right: 0;
@@ -719,7 +871,7 @@ export default {
             }
             .close {
                 position: absolute;
-                top: 5%;
+                top: 20px;
                 right: 5%;
                 width: 51px;
             }
@@ -745,13 +897,25 @@ export default {
     .save_bg {
         width: 750px;
     }
+    .badge {
+        position: absolute;
+        width: 138px;
+        height: 175px;
+        top: 220px;
+        right: 20px;
+    }
+    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+        .badge {
+            top: 340px;
+        }
+    }
     .name {
         position: absolute;
-        font-size: 39px;
+        font-size: 30px;
         font-family: Lantinghei SC;
         font-weight: bold;
         display: inline-block;
-        top: 106px;
+        top: 50px;
         left: 60px;
         .g {
             width: 100%;
@@ -761,12 +925,17 @@ export default {
             justify-content: space-between;
         }
     }
+    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+        .name {
+            top: 200px;
+        }
+    }
     .save_img {
         position: absolute;
-        width: 170px;
-        height: 200px;
+        width: 171px;
+        height: 220px;
         background: #fff;
-        bottom: 30px;
+        bottom: 76px;
         left: 60px;
         overflow: hidden;
         display: flex;
@@ -776,6 +945,11 @@ export default {
         align-content: center;
         img {
             width: 90%;
+        }
+    }
+    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+        .save_img {
+            bottom: 180px;
         }
     }
     .save_img_content {
@@ -790,21 +964,94 @@ export default {
         }
     }
 }
-@keyframes buttonPulse {
+@-webkit-keyframes rotate {
     from {
-        background-color: #1e6a0f;
-        -webkit-box-shadow: 0 0 25px #333;
-    }
-    50% {
-        background-color: #39ba1f;
-        -webkit-box-shadow: 0 0 75px #39ba1f;
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
     }
     to {
-        background-color: #1e6a0f;
-        -webkit-box-shadow: 0 0 25px #333;
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
     }
 }
-.isBegin{
+.fudong {
+    animation: 1s linear 0s none infinite alternate fudong;
+}
+@keyframes fudong {
+    from {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+    to {
+        transform: translate3d(0, 20px, 0);
+        opacity: 0.8;
+    }
+}
+.doudong {
+    animation: 1s linear 0s none infinite alternate doudong;
+}
+@keyframes doudong {
+    0% {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: rotate(1deg);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+}
+.doudong2 {
+    animation: 1s linear 0s none infinite alternate doudong2;
+}
+@keyframes doudong2 {
+    0% {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: rotate(8deg);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+}
+.disappear {
+    animation: 1s linear 0s alternate disappear;
+    animation-fill-mode: none;
+}
+@-webkit-keyframes disappear {
+    0% {
+        left: 200px;
+        opacity: 1;
+    }
+    100% {
+        left: 100px;
+        opacity: 0;
+    }
+}
+.show {
+    animation: show 8.5s linear alternate;
+    animation-fill-mode: none;
+}
+@-webkit-keyframes show {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.isBegin {
+    width: 100%;
     overflow: hidden;
     height: 100vh;
 }

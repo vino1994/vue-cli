@@ -11,20 +11,6 @@ const routers = {
             title: "少塑派行动"
         },
         component: resolve => require(["../views/danone"], resolve)
-    },{
-        path: '/explore',
-        name: 'explore',
-        meta: {
-            title: "环保少塑势在必行"
-        },
-        component: resolve => require(["../views/explore"], resolve)
-    },{
-        path: '/challenge',
-        name: 'challenge',
-        meta: {
-            title: "开始挑战"
-        },
-        component: resolve => require(["../views/challenge"], resolve)
     }],
 
     createRouter(){

@@ -8,9 +8,11 @@ import 'lib-flexible/flexible.js'
 import WxConfig from "./js/wx-sdk";
 import config from './js/config';
 import ajax from './js/services/ajax';
-import api from "./js/services/api"
+import api from "./js/services/api";
+import animate from 'animate.css'
 
 
+Vue.use(animate)
 Vue.use(Vuex);
 Vue.use(Toast, {
     type: 'center',
