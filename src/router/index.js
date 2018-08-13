@@ -11,6 +11,13 @@ const routers = {
             title: "少塑派行动"
         },
         component: resolve => require(["../views/danone"], resolve)
+    },{
+        path: '/start',
+        name: 'start',
+        meta: {
+            title: "少塑派行动"
+        },
+        component: resolve => require(["../views/start"], resolve)
     }],
 
     createRouter(){

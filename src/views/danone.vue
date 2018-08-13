@@ -98,14 +98,13 @@
                         <div class="save_img">
                             <img v-show="activeIndex == 5 && lrzImage" :src="lrzImage" alt="">
                         </div>
-                        <div class="save_img_content" v-show="saveImgSrc">
+                        <div class="save_img_content" v-show="saveImgSrc" @touchstart="gtouchstart()" @touchmove="gtouchmove()" @touchend="gtouchend()">
                             <img :src="saveImgSrc" alt="">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <img style="width:750px;" src="../images/danone/not_started.jpg" alt="" v-show="!isBegin && !isOver">
         <img style="width:750px;" src="../images/danone/isOver.jpg" alt="" v-show="!isBegin && isOver">
     </div>
 </template>
@@ -202,7 +201,8 @@ export default {
             tiaozhan: require("../images/danone/01tiaozhan.png"),
             shangchuan: require("../images/danone/01shangchuan.png"),
             isBegin: false,
-            isOver: false
+            isOver: false,
+            timeOutEvent: 0 //长按时间定时器
         };
     },
     components: {
@@ -249,7 +249,10 @@ export default {
                 direction: "vertical",
                 effect: "fade",
                 speed: 300,
+                updateOnImagesReady : true,
                 setWrapperSize: true,
+                observer:true,
+                observeParents:false,
                 noSwiping: true,
                 on: {
                     slideChangeTransitionStart: function() {
@@ -376,7 +379,7 @@ export default {
             }
             this.mySwiper.slideNext();
         },
-        fanhui(){
+        fanhui() {
             this.mySwiper.slidePrev();
         },
         //上传图片
@@ -454,7 +457,7 @@ export default {
                 scale: 2
             };
             let obj = document.getElementById("badge");
-            obj.style.opacity = '1';
+            obj.style.opacity = "1";
             html2canvas(document.querySelector("#save"), opts).then(canvas => {
                 this.saveImgSrc = canvas.toDataURL("image/jpg");
             });
@@ -492,9 +495,35 @@ export default {
         initMp3() {
             var myVideo = document.getElementById("video");
             myVideo.play();
-            document.addEventListener("WeixinJSBridgeReady", function () {
-                myVideo.play();
-            }, false);
+            document.addEventListener(
+                "WeixinJSBridgeReady",
+                function() {
+                    myVideo.play();
+                },
+                false
+            );
+        },
+        //开始按
+        gtouchstart() {
+            this.timeOutEvent = setTimeout(() => {
+                this.longPress();
+            }, 500);
+            return false;
+        },
+        //手释放，如果在500毫秒内就释放，则取消长按事件，此时可以执行onclick应该执行的事件
+        gtouchend() {
+            clearTimeout(this.timeOutEvent); //清除定时器
+            return false;
+        },
+        //如果手指有移动，则取消所有事件，此时说明用户只是要移动而不是长按
+        gtouchmove() {
+            clearTimeout(this.timeOutEvent); //清除定时器
+            this.timeOutEvent = 0;
+        },
+        //真正长按后应该执行的内容
+        longPress() {
+            this.timeOutEvent = 0;
+            // alert("长按")
         },
 
         //合成图片
@@ -591,7 +620,7 @@ export default {
         top: 220px;
         left: 530px;
     }
-    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3){
+    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
         .seagull {
             top: 320px;
         }
@@ -631,12 +660,12 @@ export default {
             bottom: 50px;
         }
     }
-    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3){
-        .earth-content{
+    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+        .earth-content {
             .earth {
-                top:110px;
+                top: 110px;
             }
-            .ren{
+            .ren {
                 bottom: -120px;
             }
             .yinying {
@@ -797,7 +826,7 @@ export default {
     align-items: center;
     justify-content: center;
     align-content: center;
-    .fanhui{
+    .fanhui {
         position: absolute;
         width: 50px;
         height: 50px;
@@ -1061,23 +1090,23 @@ export default {
 }
 @-webkit-keyframes seal {
     0% {
-        transform:scale(2.0);
+        transform: scale(2);
         opacity: 0;
     }
-    25%{
-        transform:scale(1.4);
+    25% {
+        transform: scale(1.4);
         opacity: 0.8;
     }
     50% {
-        transform:scale(1.2);
+        transform: scale(1.2);
         opacity: 1;
     }
-    75%{
-        transform:scale(1.1);
+    75% {
+        transform: scale(1.1);
         opacity: 1;
     }
     100% {
-        transform:scale(1.0);
+        transform: scale(1);
         opacity: 1;
     }
 }
