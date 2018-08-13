@@ -87,7 +87,7 @@
                 <div class="swiper-slide swiper-no-swiping">
                     <div class="save" id="save" v-cloak>
                         <img class="save_bg" :src="save_bg_img" alt="">
-                        <img class="badge seal" src="../images/danone/photo/badge.png" alt="">
+                        <img id="badge" class="badge" src="../images/danone/photo/badge.png" alt="">
                         <div class="name">
                             <div v-cloak>恭喜{{name}}</div>
                             <div class="g">
@@ -211,9 +211,10 @@ export default {
     watch: {
         save_bg_img(nowVal, oldVal) {
             if (nowVal != oldVal) {
+                this.showLoading = false;
                 setTimeout(() => {
                     this.upload();
-                }, 500);
+                }, 2000);
             }
         }
     },
@@ -433,6 +434,8 @@ export default {
                 let num = this.fRandomBy(0, 6);
                 this.save_bg_img = womanArr[num];
             }
+            let obj = document.getElementById("badge");
+            obj.classList.add("seal");
         },
         //1-7随机数,(0,6)
         fRandomBy(under, over) {
@@ -450,9 +453,10 @@ export default {
             let opts = {
                 scale: 2
             };
+            let obj = document.getElementById("badge");
+            obj.style.opacity = '1';
             html2canvas(document.querySelector("#save"), opts).then(canvas => {
                 this.saveImgSrc = canvas.toDataURL("image/jpg");
-                this.showLoading = false;
             });
         },
         ajax(callback) {
@@ -903,6 +907,7 @@ export default {
         height: 175px;
         top: 220px;
         right: 20px;
+        opacity: 0;
     }
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
         .badge {
@@ -1051,8 +1056,8 @@ export default {
     }
 }
 .seal {
-    animation: seal 800ms ease-in 3s 1;
-    animation-fill-mode: none;
+    animation: seal 500ms ease-in 1s 1;
+    animation-fill-mode: forwards;
 }
 @-webkit-keyframes seal {
     0% {
