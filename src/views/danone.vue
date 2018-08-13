@@ -87,7 +87,7 @@
                 <div class="swiper-slide swiper-no-swiping">
                     <div class="save" id="save" v-cloak>
                         <img class="save_bg" :src="save_bg_img" alt="">
-                        <img class="badge" src="../images/danone/photo/badge.png" alt="">
+                        <img class="badge seal" src="../images/danone/photo/badge.png" alt="">
                         <div class="name">
                             <div v-cloak>恭喜{{name}}</div>
                             <div class="g">
@@ -1047,6 +1047,32 @@ export default {
         opacity: 0;
     }
     100% {
+        opacity: 1;
+    }
+}
+.seal {
+    animation: seal 800ms ease-in 3s 1;
+    animation-fill-mode: none;
+}
+@-webkit-keyframes seal {
+    0% {
+        transform:scale(2.0);
+        opacity: 0;
+    }
+    25%{
+        transform:scale(1.4);
+        opacity: 0.8;
+    }
+    50% {
+        transform:scale(1.2);
+        opacity: 1;
+    }
+    75%{
+        transform:scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform:scale(1.0);
         opacity: 1;
     }
 }
