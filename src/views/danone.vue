@@ -1,5 +1,5 @@
 <template>
-    <div :class="{isBegin:isBegin}">
+    <div style="display:750px;overflow: hidden;height:100vh;position:relative;">
         <Loading v-show="showLoading"></Loading>
         <div class="music" @click="change">
             <img v-show="!stop" class="r" src="../images/danone/01mp3.png" alt="">
@@ -8,7 +8,7 @@
                 <source src="../images/danone/video.mp3" />
             </audio>
         </div>
-        <div class="swiper-container" v-show="isBegin && !isOver">
+        <div class="swiper-container">
             <div class="swiper-wrapper">
                 <!-- 第一屏 -->
                 <div class="swiper-slide swiper-no-swiping">
@@ -105,12 +105,11 @@
                 </div>
             </div>
         </div>
-        <img style="width:750px;" src="../images/danone/isOver.jpg" alt="" v-show="!isBegin && isOver">
     </div>
 </template>
 
 <script>
-import Swiper from "swiper";
+import * as Swiper from 'swiper/dist/js/swiper.js';
 import Loading from "../components/loading";
 import lrz from "lrz";
 import wxSdk from "../js/wx-sdk";
@@ -200,8 +199,6 @@ export default {
             tansuo: require("../images/danone/tansuo01.png"),
             tiaozhan: require("../images/danone/01tiaozhan.png"),
             shangchuan: require("../images/danone/01shangchuan.png"),
-            isBegin: false,
-            isOver: false,
             timeOutEvent: 0 //长按时间定时器
         };
     },
@@ -221,12 +218,6 @@ export default {
     mounted() {
         // this.initWeChat();
         this.ajax(res => {
-            // if(res < 1534780800000){
-            //     this.isBegin = false;
-            // }else if(res > 1535126399000){
-            //     this.isOver = true;
-            // }else{
-            this.isBegin = true;
             this.initSwiper();
             window.addEventListener("scroll", () => {
                 if (window.scrollY > 0 && this.name != "") {
@@ -726,6 +717,9 @@ export default {
         position: absolute;
         width: 525px;
         top: 60%;
+        left:0;
+        right: 0;
+        margin: 0 auto;
         display: flex;
         flex-direction: row;
         align-content: center;
@@ -746,6 +740,10 @@ export default {
     .btn_explore {
         position: absolute;
         top: 84%;
+        left:0;
+        right: 0;
+        margin: 0 auto;
+        text-align: center;
         img {
             width: 287px;
         }
@@ -1109,11 +1107,6 @@ export default {
         transform: scale(1);
         opacity: 1;
     }
-}
-.isBegin {
-    width: 100%;
-    overflow: hidden;
-    height: 100vh;
 }
 @import "../../node_modules/swiper/dist/css/swiper.min.css";
 </style>

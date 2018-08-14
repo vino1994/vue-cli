@@ -9,9 +9,12 @@ import WxConfig from "./js/wx-sdk";
 import config from './js/config';
 import ajax from './js/services/ajax';
 import api from "./js/services/api";
-import animate from 'animate.css'
+import animate from 'animate.css';
+import 'babel-polyfill'
+import Es6Promise from 'es6-promise'
 
 
+Es6Promise.polyfill()
 Vue.use(animate)
 Vue.use(Vuex);
 Vue.use(Toast, {
