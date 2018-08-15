@@ -1,6 +1,9 @@
 <template>
     <div style="display:750px;overflow: hidden;height:100vh;position:relative;">
         <Loading v-show="showLoading"></Loading>
+        <div class="angin" v-show="activeIndex == 5" @click="angin">
+            <img :src="anginBtn" alt="">
+        </div>
         <div class="music" @click="change">
             <img v-show="!stop" class="r" src="../images/danone/01mp3.png" alt="">
             <img v-show="stop" src="../images/danone/02mp3.png" alt="">
@@ -19,7 +22,7 @@
                             <img class="earth" src="../images/test/diqiu.png" alt="">
                             <img id="ren" class="ren" src="../images/test/ren.png" alt="">
                             <img class="yinying" src="../images/test/shadow.png" alt="">
-                            <img class="title show" src="../images/test/title.png" alt="">
+                            <img id="title" class="title show" src="../images/test/title.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -109,7 +112,7 @@
 </template>
 
 <script>
-import * as Swiper from 'swiper/dist/js/swiper.js';
+import * as Swiper from "swiper/dist/js/swiper.js";
 import Loading from "../components/loading";
 import lrz from "lrz";
 import wxSdk from "../js/wx-sdk";
@@ -167,38 +170,39 @@ export default {
             yogurt: {
                 bg: "#fffade",
                 src: require("../images/danone/challenge_yogurt.png"),
-                wd: "9.306667rem"
+                wd: "10rem"
             },
             tableware: {
                 bg: "#eae1d3",
                 src: require("../images/danone/challenge_tableware.png"),
-                wd: "8.253333rem"
+                wd: "10rem"
             },
             bag: {
                 bg: "#d5eff5",
                 src: require("../images/danone/challenge_bag.png"),
-                wd: "9.146667rem"
+                wd: "10rem"
             },
             smile: {
                 bg: "#ffffff",
                 src: require("../images/danone/challenge_smile.png"),
-                wd: "8.333333rem"
+                wd: "10rem"
             },
             fruit: {
                 bg: "#d5e4f5",
                 src: require("../images/danone/challenge_fruit.png"),
-                wd: "7.573333rem"
+                wd: "10rem"
             },
             use: {
                 bg: "#fff1ed",
                 src: require("../images/danone/challenge_use.png"),
-                wd: "7.48rem"
+                wd: "10rem"
             },
             save_bg_img: "", //图片背景
             saveImgSrc: "", //保存图片路径
             tansuo: require("../images/danone/tansuo01.png"),
             tiaozhan: require("../images/danone/01tiaozhan.png"),
             shangchuan: require("../images/danone/01shangchuan.png"),
+            anginBtn: require("../images/danone/again01.png"),
             timeOutEvent: 0 //长按时间定时器
         };
     },
@@ -240,10 +244,10 @@ export default {
                 direction: "vertical",
                 effect: "fade",
                 speed: 300,
-                updateOnImagesReady : true,
+                updateOnImagesReady: true,
                 setWrapperSize: true,
-                observer:true,
-                observeParents:false,
+                observer: true,
+                observeParents: false,
                 noSwiping: true,
                 on: {
                     slideChangeTransitionStart: function() {
@@ -404,22 +408,22 @@ export default {
         //计算生成的图片
         calculation() {
             let manArr = [
-                require("../images/danone/photo/01man.png"),
-                require("../images/danone/photo/02man.png"),
-                require("../images/danone/photo/03man.png"),
-                require("../images/danone/photo/04man.png"),
-                require("../images/danone/photo/05man.png"),
-                require("../images/danone/photo/06man.png"),
-                require("../images/danone/photo/07man.png")
+                require("../images/danone/photo/01man.jpg"),
+                require("../images/danone/photo/02man.jpg"),
+                require("../images/danone/photo/03man.jpg"),
+                require("../images/danone/photo/04man.jpg"),
+                require("../images/danone/photo/05man.jpg"),
+                require("../images/danone/photo/06man.jpg"),
+                require("../images/danone/photo/07man.jpg")
             ];
             let womanArr = [
-                require("../images/danone/photo/01woman.png"),
-                require("../images/danone/photo/02woman.png"),
+                require("../images/danone/photo/01woman.jpg"),
+                require("../images/danone/photo/02woman.jpg"),
                 require("../images/danone/photo/03woman.png"),
-                require("../images/danone/photo/04woman.png"),
-                require("../images/danone/photo/05woman.png"),
-                require("../images/danone/photo/06woman.png"),
-                require("../images/danone/photo/07woman.png")
+                require("../images/danone/photo/04woman.jpg"),
+                require("../images/danone/photo/05woman.jpg"),
+                require("../images/danone/photo/06woman.jpg"),
+                require("../images/danone/photo/07woman.jpg")
             ];
             if (this.choose_sex == "man") {
                 let num = this.fRandomBy(0, 6);
@@ -516,6 +520,38 @@ export default {
             this.timeOutEvent = 0;
             // alert("长按")
         },
+        //再玩一次
+        angin() {
+            this.anginBtn = require("../images/danone/again02.png");
+            this.showLoading = true;
+            this.mySwiper.slideToLoop(0, 1000, false);
+            this.initParams();
+            setTimeout(()=>{
+                this.showLoading = false;
+            },2000)
+        },
+        //重置变量
+        initParams(){
+            // 第一屏
+            let obj = document.getElementById("ren");
+            obj.classList.remove("disappear");
+            // 第二屏
+            this.name = '';
+            this.activeIndex = 0;
+            this.man = require("../images/danone/02man.png");
+            this.woman = require("../images/danone/02woman.png");
+            // 第五屏
+            this.lrzImage = '';
+            document.getElementById("iamge").value = "";
+            // 第六屏
+            let obj2 = document.getElementById("badge");
+            obj2.classList.remove("seal");
+        },
+
+
+
+
+
 
         //合成图片
         compositePicture(res) {
@@ -571,6 +607,17 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.angin {
+    position: absolute;
+    top: 0;
+    right: 64px;
+    z-index: 2;
+    top: 1030px;
+    img {
+        width: 168px;
+        height: 57px;
+    }
+}
 .music {
     position: absolute;
     width: 50px;
@@ -717,7 +764,7 @@ export default {
         position: absolute;
         width: 525px;
         top: 60%;
-        left:0;
+        left: 0;
         right: 0;
         margin: 0 auto;
         display: flex;
@@ -740,7 +787,7 @@ export default {
     .btn_explore {
         position: absolute;
         top: 84%;
-        left:0;
+        left: 0;
         right: 0;
         margin: 0 auto;
         text-align: center;
@@ -824,15 +871,18 @@ export default {
     align-items: center;
     justify-content: center;
     align-content: center;
+    position: relative;
     .fanhui {
         position: absolute;
         width: 50px;
         height: 50px;
         top: 20px;
         left: 20px;
+        z-index: 2;
     }
     .challenge-btn {
-        margin-top: 30px;
+        position: absolute;
+        bottom: 50px;
         img {
             width: 288px;
         }
@@ -947,7 +997,7 @@ export default {
         font-family: Lantinghei SC;
         font-weight: bold;
         display: inline-block;
-        top: 80px;
+        top: 70px;
         left: 60px;
         .g {
             width: 100%;
@@ -964,11 +1014,12 @@ export default {
     }
     .save_img {
         position: absolute;
-        width: 171px;
-        height: 220px;
+        width: 250px;
+        height: 322px;
         background: #fff;
-        bottom: 76px;
+        top: 840px;
         left: 60px;
+        box-sizing: border-box;
         overflow: hidden;
         display: flex;
         flex-direction: column;
