@@ -117,6 +117,7 @@ import Loading from "../components/loading";
 import lrz from "lrz";
 import wxSdk from "../js/wx-sdk";
 import html2canvas from "html2canvas";
+import animate from 'script-loader!../css/animate/swiper.animate1.0.3.min.js'
 export default {
     data() {
         return {
@@ -250,6 +251,10 @@ export default {
                 observeParents: false,
                 noSwiping: true,
                 on: {
+                    init:function(){
+                        swiperAnimateCache(this); //隐藏动画元素
+                        swiperAnimate(this); //初始化完成开始动画
+                    },
                     slideChangeTransitionStart: function() {
                         _this.activeIndex = this.activeIndex;
                         switch (this.activeIndex) {
@@ -274,6 +279,9 @@ export default {
                                 _this.calculation();
                                 break;
                         }
+                    },
+                    slideChangeTransitionEnd: function(){
+                        swiperAnimate(this); //每个slide切换结束时也运行当前slide动画
                     },
                     imagesReady: function() {
                         _this.initMp3();
@@ -616,6 +624,11 @@ export default {
     img {
         width: 168px;
         height: 57px;
+    }
+}
+@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+    .angin {
+        top: 1150px;
     }
 }
 .music {
@@ -1032,7 +1045,7 @@ export default {
     }
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
         .save_img {
-            bottom: 180px;
+            top: 950px;
         }
     }
     .save_img_content {
@@ -1159,5 +1172,6 @@ export default {
         opacity: 1;
     }
 }
+@import '../css/animate/animate.min.css';
 @import "../../node_modules/swiper/dist/css/swiper.min.css";
 </style>
