@@ -115,9 +115,8 @@
 import * as Swiper from "swiper/dist/js/swiper.js";
 import Loading from "../components/loading";
 import lrz from "lrz";
-import wxSdk from "../js/wx-sdk";
+// import wxSdk from "../js/wx-sdk";
 import html2canvas from "html2canvas";
-import animate from 'script-loader!../css/animate/swiper.animate1.0.3.min.js'
 export default {
     data() {
         return {
@@ -251,10 +250,10 @@ export default {
                 observeParents: false,
                 noSwiping: true,
                 on: {
-                    init:function(){
-                        swiperAnimateCache(this); //隐藏动画元素
-                        swiperAnimate(this); //初始化完成开始动画
-                    },
+                    // init:function(){
+                    //     swiperAnimateCache(this); //隐藏动画元素
+                    //     swiperAnimate(this); //初始化完成开始动画
+                    // },
                     slideChangeTransitionStart: function() {
                         _this.activeIndex = this.activeIndex;
                         switch (this.activeIndex) {
@@ -1172,6 +1171,5 @@ export default {
         opacity: 1;
     }
 }
-@import '../css/animate/animate.min.css';
 @import "../../node_modules/swiper/dist/css/swiper.min.css";
 </style>

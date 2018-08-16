@@ -36,6 +36,7 @@
         "friendly-errors-webpack-plugin": "^1.6.1",
         "html-webpack-plugin": "^2.30.1",
         "html2canvas": "^1.0.0-alpha.12",
+        "imagemin-webpack-plugin": "^2.2.0",
         "less": "^3.8.0",
         "less-loader": "^4.1.0",
         "lib-flexible": "^0.3.2",
