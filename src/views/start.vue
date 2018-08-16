@@ -1,6 +1,6 @@
 <template>
     <div>
-        <img src="../images/danone/not_started.jpg" alt="">
+        <img src="http://pdjjnwdwb.bkt.clouddn.com/not_started.jpg" alt="">
     </div>
 </template>
 <script>

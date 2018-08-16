@@ -8,7 +8,7 @@
             <img v-show="!stop" class="r" src="../images/danone/01mp3.png" alt="">
             <img v-show="stop" src="../images/danone/02mp3.png" alt="">
             <audio class="video" autoplay="autoplay" id="video" controls="controls" loop="loop">
-                <source src="../images/danone/video.mp3" />
+                <source src="http://pdjjnwdwb.bkt.clouddn.com/video.mp3" />
             </audio>
         </div>
         <div class="swiper-container">
@@ -169,32 +169,32 @@ export default {
             },
             yogurt: {
                 bg: "#fffade",
-                src: require("../images/danone/challenge_yogurt.png"),
+                src: 'http://pdjjnwdwb.bkt.clouddn.com/challenge_yogurt.png',
                 wd: "10rem"
             },
             tableware: {
                 bg: "#eae1d3",
-                src: require("../images/danone/challenge_tableware.png"),
+                src: 'http://pdjjnwdwb.bkt.clouddn.com/challenge_tableware.png',
                 wd: "10rem"
             },
             bag: {
                 bg: "#d5eff5",
-                src: require("../images/danone/challenge_bag.png"),
+                src: 'http://pdjjnwdwb.bkt.clouddn.com/challenge_bag.png',
                 wd: "10rem"
             },
             smile: {
                 bg: "#ffffff",
-                src: require("../images/danone/challenge_smile.png"),
+                src: 'http://pdjjnwdwb.bkt.clouddn.com/challenge_smile.png',
                 wd: "10rem"
             },
             fruit: {
                 bg: "#d5e4f5",
-                src: require("../images/danone/challenge_fruit.png"),
+                src: 'http://pdjjnwdwb.bkt.clouddn.com/challenge_fruit.png',
                 wd: "10rem"
             },
             use: {
                 bg: "#fff1ed",
-                src: require("../images/danone/challenge_use.png"),
+                src: 'http://pdjjnwdwb.bkt.clouddn.com/challenge_use.png',
                 wd: "10rem"
             },
             save_bg_img: "", //图片背景
@@ -279,9 +279,9 @@ export default {
                                 break;
                         }
                     },
-                    slideChangeTransitionEnd: function(){
-                        swiperAnimate(this); //每个slide切换结束时也运行当前slide动画
-                    },
+                    // slideChangeTransitionEnd: function(){
+                    //     swiperAnimate(this); //每个slide切换结束时也运行当前slide动画
+                    // },
                     imagesReady: function() {
                         _this.initMp3();
                         setTimeout(() => {
