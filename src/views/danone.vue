@@ -417,22 +417,22 @@ export default {
         //计算生成的图片
         calculation() {
             let manArr = [
-                'http://pdjjnwdwb.bkt.clouddn.com/01man.jpg',
-                'http://pdjjnwdwb.bkt.clouddn.com/02man.jpg',
-                'http://pdjjnwdwb.bkt.clouddn.com/03man.jpg',
-                'http://pdjjnwdwb.bkt.clouddn.com/04man.jpg',
-                'http://pdjjnwdwb.bkt.clouddn.com/05man.jpg',
-                'http://pdjjnwdwb.bkt.clouddn.com/06man.jpg',
-                'http://pdjjnwdwb.bkt.clouddn.com/07man.jpg'
+                require("../images/danone/photo/01man.jpg"),
+                require("../images/danone/photo/02man.jpg"),
+                require("../images/danone/photo/03man.jpg"),
+                require("../images/danone/photo/04man.jpg"),
+                require("../images/danone/photo/05man.jpg"),
+                require("../images/danone/photo/06man.jpg"),
+                require("../images/danone/photo/07man.jpg"),
             ];
             let womanArr = [
-                'http://pdjjnwdwb.bkt.clouddn.com/01woman.jpg',
-                'http://pdjjnwdwb.bkt.clouddn.com/02woman.jpg',
-                'http://pdjjnwdwb.bkt.clouddn.com/03woman.jpg',
-                'http://pdjjnwdwb.bkt.clouddn.com/04woman.jpg',
-                'http://pdjjnwdwb.bkt.clouddn.com/05woman.jpg',
-                'http://pdjjnwdwb.bkt.clouddn.com/06woman.jpg',
-                'http://pdjjnwdwb.bkt.clouddn.com/07woman.jpg'
+                require("../images/danone/photo/01woman.jpg"),
+                require("../images/danone/photo/02woman.jpg"),
+                require("../images/danone/photo/03woman.png"),
+                require("../images/danone/photo/04woman.jpg"),
+                require("../images/danone/photo/05woman.jpg"),
+                require("../images/danone/photo/06woman.jpg"),
+                require("../images/danone/photo/07woman.jpg"),
             ];
             if (this.choose_sex == "man") {
                 let num = this.fRandomBy(0, 6);
