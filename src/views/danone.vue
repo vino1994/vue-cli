@@ -103,6 +103,7 @@
                         <p class="p">本活动奖励机制仅针对达能员工使用</p>
                         <div class="save_img">
                             <img v-show="activeIndex == 5 && lrzImage" :src="lrzImage" alt="">
+                            <div></div>
                         </div>
                         <div class="save_img_content" v-show="saveImgSrc" @touchstart="gtouchstart()" @touchmove="gtouchmove()" @touchend="gtouchend()">
                             <img :src="saveImgSrc" alt="">
@@ -1066,6 +1067,13 @@ export default {
             position: absolute;
             width: 90%;
             padding: 20px;
+        }
+        div{
+            position: absolute;
+            width: 100%;
+            background: #fff;
+            height: 20px;
+            bottom: 0;
         }
     }
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
