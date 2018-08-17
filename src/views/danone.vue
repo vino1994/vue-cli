@@ -100,6 +100,7 @@
                                 <div>提</div>
                             </div>
                         </div>
+                        <p class="p">本活动奖励机制仅针对达能员工使用</p>
                         <div class="save_img">
                             <img v-show="activeIndex == 5 && lrzImage" :src="lrzImage" alt="">
                         </div>
@@ -621,7 +622,7 @@ export default {
     top: 0;
     right: 64px;
     z-index: 2;
-    top: 1030px;
+    top: 1050px;
     img {
         width: 168px;
         height: 57px;
@@ -629,7 +630,7 @@ export default {
 }
 @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
     .angin {
-        top: 1150px;
+        top: 1170px;
     }
 }
 .music {
@@ -1031,9 +1032,20 @@ export default {
             justify-content: space-between;
         }
     }
+    .p{
+        position: absolute;
+        font-size: 16px;
+        font-family: Lantinghei SC;
+        top: 1000px;
+        right: 64px;
+        color: #969696;
+    }
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
         .name {
             top: 200px;
+        }
+        .p{
+            top:1116px;
         }
     }
     .save_img {
@@ -1041,7 +1053,7 @@ export default {
         width: 250px;
         height: 342px;
         background: #fff;
-        top: 840px;
+        top: 810px;
         left: 60px;
         box-sizing: border-box;
         overflow: hidden;
