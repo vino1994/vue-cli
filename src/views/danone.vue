@@ -24,6 +24,8 @@
                             <img class="yinying" src="../images/test/shadow.png" alt="">
                             <img id="title" class="title show" src="../images/test/title.png" alt="">
                         </div>
+                        <img class="logo" src="../images/test/logo.png" alt="">
+                        <p class="text">*本活动奖励机制仅针对达能员工使用<br/>活动最终解释权归达能所有</p>
                     </div>
                 </div>
                 <!-- 第二屏 -->
@@ -415,22 +417,22 @@ export default {
         //计算生成的图片
         calculation() {
             let manArr = [
-                require("../images/danone/photo/01man.jpg"),
-                require("../images/danone/photo/02man.jpg"),
-                require("../images/danone/photo/03man.jpg"),
-                require("../images/danone/photo/04man.jpg"),
-                require("../images/danone/photo/05man.jpg"),
-                require("../images/danone/photo/06man.jpg"),
-                require("../images/danone/photo/07man.jpg")
+                'http://pdjjnwdwb.bkt.clouddn.com/01man.jpg',
+                'http://pdjjnwdwb.bkt.clouddn.com/02man.jpg',
+                'http://pdjjnwdwb.bkt.clouddn.com/03man.jpg',
+                'http://pdjjnwdwb.bkt.clouddn.com/04man.jpg',
+                'http://pdjjnwdwb.bkt.clouddn.com/05man.jpg',
+                'http://pdjjnwdwb.bkt.clouddn.com/06man.jpg',
+                'http://pdjjnwdwb.bkt.clouddn.com/07man.jpg'
             ];
             let womanArr = [
-                require("../images/danone/photo/01woman.jpg"),
-                require("../images/danone/photo/02woman.jpg"),
-                require("../images/danone/photo/03woman.png"),
-                require("../images/danone/photo/04woman.jpg"),
-                require("../images/danone/photo/05woman.jpg"),
-                require("../images/danone/photo/06woman.jpg"),
-                require("../images/danone/photo/07woman.jpg")
+                'http://pdjjnwdwb.bkt.clouddn.com/01woman.jpg',
+                'http://pdjjnwdwb.bkt.clouddn.com/02woman.jpg',
+                'http://pdjjnwdwb.bkt.clouddn.com/03woman.jpg',
+                'http://pdjjnwdwb.bkt.clouddn.com/04woman.jpg',
+                'http://pdjjnwdwb.bkt.clouddn.com/05woman.jpg',
+                'http://pdjjnwdwb.bkt.clouddn.com/06woman.jpg',
+                'http://pdjjnwdwb.bkt.clouddn.com/07woman.jpg'
             ];
             if (this.choose_sex == "man") {
                 let num = this.fRandomBy(0, 6);
@@ -726,18 +728,28 @@ export default {
             }
         }
     }
-    .arrow {
+    .logo{
         position: absolute;
-        bottom: 4%;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        width: 36px;
-        animation: scaleDraw 5s ease-in-out infinite;
-        -webkit-animation: scaleDraw 5s ease-in-out infinite;
-        img {
-            width: 100%;
-            height: 100%;
+        width: 113px;
+        height: 36px;
+        top: 1140px;
+        left: 70px;
+    }
+    .text{
+        position: absolute;
+        font-size: 16px;
+        font-family: Lantinghei SC;
+        top: 1126px;
+        right: 30px;
+        color: #969696;
+        text-align: right;
+    }
+    @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+        .logo{
+            top: 1280px;
+        }
+        .text{
+            top: 1270px;
         }
     }
 }
@@ -1027,7 +1039,7 @@ export default {
     .save_img {
         position: absolute;
         width: 250px;
-        height: 322px;
+        height: 342px;
         background: #fff;
         top: 840px;
         left: 60px;
@@ -1036,10 +1048,12 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         align-content: center;
         img {
+            position: absolute;
             width: 90%;
+            padding: 20px;
         }
     }
     @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
