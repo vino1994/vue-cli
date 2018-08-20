@@ -24,7 +24,7 @@ const routers = {
         var _this = this;
         var router = new Router({
             routes: _this.router,
-			mode: 'history',
+			// mode: 'history',
 			base: "/",
 			linkActiveClass: "router-link-active"
         });
