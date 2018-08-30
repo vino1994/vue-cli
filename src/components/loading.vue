@@ -1,5 +1,5 @@
 <template>
-    <!-- <div class="loader" @touchmove.prevent>
+    <div class="loader" @touchmove.prevent>
         <div class="loader-inner">
             <div class="loader-line-wrap">
                 <div class="loader-line"></div>
@@ -16,12 +16,6 @@
             <div class="loader-line-wrap">
                 <div class="loader-line"></div>
             </div>
-        </div>
-    </div> -->
-    <div class="loader2" @touchmove.prevent>
-        <div class="box">
-            <span class="lod2"></span>
-            <img class="loading" src="../images/danone/loading.png" alt="">
         </div>
     </div>
 </template>
@@ -51,48 +45,6 @@ export default {
 </script>
 
 <style lang="less" rel="stylesheet/less" type="text/css" scoped>
-.loader2{
-    position: absolute;
-    z-index: 50;
-    width: 100%;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    background: #d1e9fc;
-    .box{
-        position: absolute;
-        width: 100%;
-        height: 40px;
-        left: 0;
-        top: 50%;
-        margin-top: -25px;
-        .lod2{
-            position: absolute;
-            width: 589px;
-            height: 44px;
-            border-radius: 10px;
-            box-sizing: border-box;
-            padding: 4px;
-            overflow: hidden;
-            left: 0;
-            right: 0;
-            margin: 0 auto;
-            bottom: 0;
-            background: url("../images/danone/xiguan.gif");
-            background-size: 100% 100%;
-            background-color: #d1e9fc;
-        }
-    }
-    .loading{
-        position: absolute;
-        // width: 506px;
-        // height: 83px;
-        width: 160px;
-        height: 26px;
-        right: 80px;
-        top: 60px;
-    }
-}
 .loader {
     background: rgba(0,0,0,0.6);
     bottom: 0;
