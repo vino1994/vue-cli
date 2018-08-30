@@ -5,19 +5,12 @@ Vue.use(Router)
 
 const routers = {
     router:[{
-        path: '/danone',
-        name: 'danone',
+        path: '/wx/wxDemo',
+        name: 'demo',
         meta: {
-            title: "少塑派行动"
+            title: "demo"
         },
-        component: resolve => require(["../views/danone"], resolve)
-    },{
-        path: '/start',
-        name: 'start',
-        meta: {
-            title: "少塑派行动"
-        },
-        component: resolve => require(["../views/start"], resolve)
+        component: resolve => require(["../views/demo"], resolve)
     }],
 
     createRouter(){
@@ -25,7 +18,7 @@ const routers = {
         var router = new Router({
             routes: _this.router,
 			mode: 'history',
-			base: "/",
+			base: __dirname,
 			linkActiveClass: "router-link-active"
         });
         router.beforeEach((to, from, next) => _this.beforeEach(to, from, next));
