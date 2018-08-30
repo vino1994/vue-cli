@@ -9,7 +9,8 @@ export default {
     name: "app",
     mounted() {
         const script = document.createElement("script");
-        script.src = "https://s22.cnzz.com/z_stat.php?id=1274466746&web_id=1274466746"
+        script.src =
+            "https://s22.cnzz.com/z_stat.php?id=1274466746&web_id=1274466746";
         script.language = "JavaScript";
         document.body.appendChild(script);
     },
