@@ -1,10 +1,20 @@
 <template>
-    <div>
-        <p>sdkjflkasjdf</p>
+    <div class="content">
+        <div class="weui-cells__title">DEMO</div>
+        <div class="weui-uploader">
+            <div class="weui-uploader__hd">
+                <p class="weui-uploader__title">图像接口</p>
+                <div class="weui-uploader__info">拍照或从手机相册中选图接口</div>
+            </div>
+            <div class="weui-uploader__bd">
+                <div class="weui-uploader__input-box">
+                    <input id="uploaderInput" class="weui-uploader__input" @click="chooseImage" />
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
-import wxSdk from "../js/wx-sdk";
 export default {
     data() {
         return {};
@@ -14,12 +24,14 @@ export default {
     },
     methods: {
         initWeChat() {
-            return app.api.wxConfig.config({
+            return app.api.wxConfig
+                .config({
                     url: location.href.split("#")[0]
-                }).then(data => {
+                })
+                .then(data => {
                     if (data.status == 200) {
-                        wxSdk.config(data.data);
-                        wxSdk.shareFriend({
+                        window.app.wx.config(data.data);
+                        window.app.wx.shareFriend({
                             title: "测试title",
                             desc: "测试desc",
                             link: location.href.split("#")[0],
@@ -28,6 +40,9 @@ export default {
                         });
                     }
                 });
+        },
+        chooseImage() {
+
         }
     }
 };

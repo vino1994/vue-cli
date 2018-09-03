@@ -5,7 +5,7 @@ Vue.use(Router)
 
 const routers = {
     router:[{
-        path: '/wx/wxDemo',
+        path: '/',
         name: 'demo',
         meta: {
             title: "demo"
