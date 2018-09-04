@@ -5,12 +5,26 @@ Vue.use(Router)
 
 const routers = {
     router:[{
-        path: '/',
-        name: 'demo',
+        path: '/wx/',
+        name: 'home',
         meta: {
-            title: "demo"
+            title: "wxsdk demo"
         },
-        component: resolve => require(["../views/demo"], resolve)
+        component: resolve => require(["../views/home"], resolve)
+    },{
+        path: '/wx/image',
+        name: 'image',
+        meta: {
+            title: "imageDemo"
+        },
+        component: resolve => require(["../views/imageDemo"], resolve)
+    },{
+        path: '/wx/voice',
+        name: 'voice',
+        meta: {
+            title: "voiceDemo"
+        },
+        component: resolve => require(["../views/voiceDemo"], resolve)
     }],
 
     createRouter(){

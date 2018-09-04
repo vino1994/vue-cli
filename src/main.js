@@ -12,12 +12,15 @@ import 'babel-polyfill'
 import Es6Promise from 'es6-promise'
 import 'lib-flexible/flexible.js'
 
+import 'weui';
+import weui from 'weui.js';
+
 
 Es6Promise.polyfill()
 // Vue.use(animate)
 Vue.use(Vuex);
 
-window.app = Object.assign({ config: config, wx: WxConfig, ajax: ajax(), api: api ,wxSDK:wxSDK});
+window.app = Object.assign({ config: config, wx: WxConfig, ajax: ajax(), api: api ,wxSDK:wxSDK,weui:weui});
 Vue.config.productionTip = false;
 
 new Vue({

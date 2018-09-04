@@ -25,5 +25,31 @@ export default {
             })
         })
     },
-
+    //分享到QQ
+    shareQQ() {
+        window.app.wxSDK.onMenuShareQQ({
+            title: params.title, // 分享标题
+            desc: params.desc, // 分享描述
+            link: params.link, // 分享链接
+            imgUrl: params.imgUrl, // 分享图标
+        });
+    },
+    //分享到腾讯微博
+    shareTencentWeibo(){
+        window.app.wxSDK.onMenuShareWeibo({
+            title: params.title, // 分享标题
+            desc: params.desc, // 分享描述
+            link: params.link, // 分享链接
+            imgUrl: params.imgUrl, // 分享图标
+        })
+    },
+    //分享到QQ空间
+    ShareQZone(){
+        window.app.wxSDK.onMenuShareQZone({
+            title: params.title, // 分享标题
+            desc: params.desc, // 分享描述
+            link: params.link, // 分享链接
+            imgUrl: params.imgUrl, // 分享图标
+        })
+    }
 }

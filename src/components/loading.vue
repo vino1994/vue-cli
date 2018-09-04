@@ -1,23 +1,4 @@
 <template>
-    <!-- <div class="loader" @touchmove.prevent>
-        <div class="loader-inner">
-            <div class="loader-line-wrap">
-                <div class="loader-line"></div>
-            </div>
-            <div class="loader-line-wrap">
-                <div class="loader-line"></div>
-            </div>
-            <div class="loader-line-wrap">
-                <div class="loader-line"></div>
-            </div>
-            <div class="loader-line-wrap">
-                <div class="loader-line"></div>
-            </div>
-            <div class="loader-line-wrap">
-                <div class="loader-line"></div>
-            </div>
-        </div>
-    </div> -->
     <div class="loader2" @touchmove.prevent>
         <div class="box">
             <span class="lod2"></span>
