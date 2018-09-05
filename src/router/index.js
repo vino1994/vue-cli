@@ -25,6 +25,20 @@ const routers = {
             title: "voiceDemo"
         },
         component: resolve => require(["../views/voiceDemo"], resolve)
+    },{
+        path: '/wx/device',
+        name: 'device',
+        meta: {
+            title: "deviceDemo"
+        },
+        component: resolve => require(["../views/deviceDemo"], resolve)
+    },{
+        path: '/wx/pay',
+        name: 'pay',
+        meta: {
+            title: "payDemo"
+        },
+        component: resolve => require(["../views/payDemo"], resolve)
     }],
 
     createRouter(){

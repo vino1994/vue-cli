@@ -5,13 +5,13 @@
                 <p class="weui-uploader__title">发送语音</p>
             </div>
             <div class="weui-uploader__bd">
-                <a class="weui-btn weui-btn_mini weui-btn_primary" @touchstart="startRecord" @touchend="stopRecord">开始录音</a>
+                <a class="weui-btn weui-btn_primary" @touchstart="startRecord" @touchend="stopRecord">开始录音</a>
             </div>
             <div class="weui-uploader__bd" style="margin-top:10px;" v-show="recordStatus === 'complete'">
-                <a class="weui-btn weui-btn_mini weui-btn_primary" @click="playVoice">播放录音({{Math.ceil(longTapTime)}}')</a>
+                <a class="weui-btn weui-btn_primary" @click="playVoice">播放录音({{Math.ceil(longTapTime)}}')</a>
             </div>
             <div class="weui-uploader__bd" style="margin-top:10px;">
-                <a class="weui-btn weui-btn_mini weui-btn_primary" @click="translateVoice">识别音频</a>
+                <a class="weui-btn weui-btn_primary" @click="translateVoice">识别音频</a>
                 <p>{{translateResult}}</p>
             </div>
         </div>

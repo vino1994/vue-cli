@@ -13,6 +13,18 @@
                 </div>
                 <div class="weui-cell__ft"></div>
             </router-link>
+            <router-link :to="{name:'device'}" class="weui-cell weui-cell_access">
+                <div class="weui-cell__bd">
+                    <p>设备相关</p>
+                </div>
+                <div class="weui-cell__ft"></div>
+            </router-link>
+            <router-link :to="{name:'pay'}" class="weui-cell weui-cell_access">
+                <div class="weui-cell__bd">
+                    <p>支付</p>
+                </div>
+                <div class="weui-cell__ft"></div>
+            </router-link>
         </div>
     </div>
 </template>
