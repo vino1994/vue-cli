@@ -1,27 +1,9 @@
 <template>
     <div>
         <div class="weui-cells">
-            <router-link :to="{name:'image'}" class="weui-cell weui-cell_access">
+            <router-link :to="{name:'detect'}" class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">
-                    <p>图像接口</p>
-                </div>
-                <div class="weui-cell__ft"></div>
-            </router-link>
-            <router-link :to="{name:'voice'}" class="weui-cell weui-cell_access">
-                <div class="weui-cell__bd">
-                    <p>音频接口</p>
-                </div>
-                <div class="weui-cell__ft"></div>
-            </router-link>
-            <router-link :to="{name:'device'}" class="weui-cell weui-cell_access">
-                <div class="weui-cell__bd">
-                    <p>设备相关</p>
-                </div>
-                <div class="weui-cell__ft"></div>
-            </router-link>
-            <router-link :to="{name:'pay'}" class="weui-cell weui-cell_access">
-                <div class="weui-cell__bd">
-                    <p>支付</p>
+                    <p>人脸检测</p>
                 </div>
                 <div class="weui-cell__ft"></div>
             </router-link>

@@ -5,40 +5,19 @@ Vue.use(Router)
 
 const routers = {
     router:[{
-        path: '/wx/',
+        path: '/baidu/',
         name: 'home',
         meta: {
-            title: "wxsdk demo"
+            title: "baiduAIP demo"
         },
         component: resolve => require(["../views/home"], resolve)
     },{
-        path: '/wx/image',
-        name: 'image',
+        path: '/baidu/detect',
+        name: 'detect',
         meta: {
-            title: "imageDemo"
+            title: "detectDemo"
         },
-        component: resolve => require(["../views/imageDemo"], resolve)
-    },{
-        path: '/wx/voice',
-        name: 'voice',
-        meta: {
-            title: "voiceDemo"
-        },
-        component: resolve => require(["../views/voiceDemo"], resolve)
-    },{
-        path: '/wx/device',
-        name: 'device',
-        meta: {
-            title: "deviceDemo"
-        },
-        component: resolve => require(["../views/deviceDemo"], resolve)
-    },{
-        path: '/wx/pay',
-        name: 'pay',
-        meta: {
-            title: "payDemo"
-        },
-        component: resolve => require(["../views/payDemo"], resolve)
+        component: resolve => require(["../views/detectDemo"], resolve)
     }],
 
     createRouter(){

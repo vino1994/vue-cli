@@ -2,10 +2,13 @@ import axios from "axios";
 
 export default function () {
     const instance = axios.create({
-        //请求域名
+        // 将被添加到`url`前面，除非`url`是绝对的。
         baseURL: '',
+        //是发出请求时使用的请求方法
         method: 'post',
-        timeout: 10000,
+        //请求超时时间
+   		timeout: 30000,
+        //服务器返回的数据类型
         responseType: "json",
         // 表示跨域请求时是否需要使用凭证
         withCredentials: false,
@@ -17,6 +20,9 @@ export default function () {
         success: null,
         //请求失败
         error: null,
+        //定义允许的http响应内容的最大大小
+        maxContentLength: 200000,
+        //要发送的自定义 headers,{'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/x-www-form-urlencoded'},
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         }
